@@ -1,7 +1,7 @@
 package network_architect.devices.binary_light;
 
 import org.fourthline.cling.binding.annotations.*;
-
+import java.beans.PropertyChangeSupport;
 
 // binding annotation
 @UpnpService(
@@ -9,6 +9,16 @@ import org.fourthline.cling.binding.annotations.*;
         serviceType = @UpnpServiceType(value = "SwitchPower", version = 1)
 )
 public class SwitchPower {
+
+    private final PropertyChangeSupport propertyChangeSupport;
+
+    public SwitchPower() {
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
+    }
 
     @UpnpStateVariable(defaultValue = "0", sendEvents = false)
     private boolean target = false;
@@ -19,8 +29,16 @@ public class SwitchPower {
     @UpnpAction
     public void setTarget(@UpnpInputArgument(name = "NewTargetValue")
                                   boolean newTargetValue) {
+        boolean targetOldValue = target;
         target = newTargetValue;
+        boolean statusOldValue = status;
         status = newTargetValue;
+        // These have no effect on the UPnP monitoring but it's JavaBean compliant
+        getPropertyChangeSupport().firePropertyChange("target", targetOldValue, target);
+        getPropertyChangeSupport().firePropertyChange("status", statusOldValue, status);
+
+        // This will send a UPnP event, it's the name of a state variable that triggers events
+        getPropertyChangeSupport().firePropertyChange("Status", statusOldValue, status);
         System.out.println("Switch is: " + status);
     }
 
