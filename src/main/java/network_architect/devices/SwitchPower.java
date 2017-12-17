@@ -1,4 +1,4 @@
-package network_architect.devices.binary_light;
+package network_architect.devices;
 
 import org.fourthline.cling.binding.annotations.*;
 import java.beans.PropertyChangeSupport;
