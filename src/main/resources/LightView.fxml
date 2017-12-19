@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="network_architect.view.LightView">
+   <children>
+      <Label layoutX="16.0" layoutY="14.0" text="Light System">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="63.0" text="Status" />
+      <Circle fill="GREY" layoutX="117.0" layoutY="70.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
+      <Button layoutX="41.0" layoutY="108.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="68.0" text="ON/OFF" />
+      <Label layoutX="6.0" layoutY="152.0" prefHeight="16.0" prefWidth="140.0" text="Note: Click to change" wrapText="true" />
+      <Label layoutX="6.0" layoutY="169.0" text="status of lights" />
+      
+
+   </children>
+</AnchorPane>

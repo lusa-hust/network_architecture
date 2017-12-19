@@ -75,7 +75,7 @@ public class SmartGardenControlPoint extends Application {
             AnchorPane rootLayout = loader.load();
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout, 320, 240);
+            Scene scene = new Scene(rootLayout, 600, 400);
             primaryStage.setScene(scene);
             primaryStage.show();
 

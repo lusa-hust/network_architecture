@@ -13,5 +13,6 @@
     <orderEntry type="library" name="Maven: org.seamless:seamless-util:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.seamless:seamless-http:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.seamless:seamless-xml:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.jfxtras:jfxtras-controls:8.0-r1-SNAPSHOT" level="project" />
   </component>
 </module>
