@@ -92,7 +92,7 @@ public class SmartGardenControlPoint extends Application {
 
             @Override
             public void established(GENASubscription sub) {
-                //System.out.println("Established: " + sub.getSubscriptionId());
+                System.out.println("Established: " + sub.getSubscriptionId());
             }
 
             @Override
@@ -113,19 +113,24 @@ public class SmartGardenControlPoint extends Application {
                 if (idVar != null) {
                     String id = (String) idVar.getValue();
 
-//                    if (id.contains("LightSensor")) {
-//                        onLightSensorDataChange(id,true);
-//                    } else if (id.contains("HumiditySensor")) {
-//                        onHumiditySensorDataChange(id,true);
-//                    } else if (id.contains("TemperatureSensor")) {
-//                        onTemperatureSensorDataChange(id,true);
-//                    } else if (id.contains("Light")) {
-//                        onLightDataChange(id,true);
-//                    } else if (id.contains("AirConditioning")) {
-//                        onAirConditioningDataChange(id,true);
-//                    } else if (id.contains("Pump")) {
-//                        onPumpDataChange(id,true);
-//                    }
+                    if (id.contains("LightSensor")) {
+
+                        onLightSensorDataChange(id,true);
+                    } else if (id.contains("HumiditySensor")) {
+                        onHumiditySensorDataChange(id,true);
+                    } else if (id.contains("TemperatureSensor")) {
+
+                        onTemperatureSensorDataChange(id,true);
+
+                    } else if (id.contains("Light")) {
+                        StateVariableValue getStatus = values.get("Status");
+                        Boolean status = (Boolean) getStatus.getValue();
+                        onLightDataChange(id,status);
+                    } else if (id.contains("AirConditioning")) {
+                        onAirConditioningDataChange(id,true);
+                    } else if (id.contains("Pump")) {
+                        onPumpDataChange(id,true);
+                    }
                 }
             }
 

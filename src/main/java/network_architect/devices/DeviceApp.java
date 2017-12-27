@@ -59,7 +59,7 @@ public abstract class DeviceApp extends Application {
         for (int i = 0; i < amount; ++i) {
             // Create device model
             String id = prefix.concat(String.valueOf(i));
-            Device device = new Device(id, type,  id,1, "Thiet bi", "Tesla", description, "B502", deviceClass);
+            Device device = new Device(id, type,  id,1, "Device", "Tesla", description, "B502", deviceClass);
             device.initializeDevice();
             devices[i] = device;
         }
