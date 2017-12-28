@@ -27,12 +27,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="102.0" prefWidth="231.0" text="Light" onAction="#openLight" />
-            <Button mnemonicParsing="false" prefHeight="97.0" prefWidth="230.0" text="Air Conditioner" onAction="#openAirConditioner" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="134.0" prefWidth="249.0" text="Light Sensor" onAction="#openLightSensor" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="155.0" prefWidth="305.0" text="Humidity Sensor" onAction="#openHumiditySensor" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="176.0" prefWidth="321.0" text="Pump" onAction="#openPump" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" prefHeight="287.0" prefWidth="528.0" text="Temperature Sensor" onAction="#openTempSensor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
 

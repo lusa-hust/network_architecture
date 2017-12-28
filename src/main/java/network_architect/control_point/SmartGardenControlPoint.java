@@ -184,8 +184,10 @@ public class SmartGardenControlPoint extends Application {
                     LightService = device.findService(new UDAServiceId("Light"));
                     if (LightService != null) {
                         initializePropertyChangeCallback(upnpService, LightService);
+                        System.out.println("1. subscribe Light completed!");
+                        System.out.println(">> Light service: " + LightService.toString());
                     }
-                    System.out.println("1. subscribe Light completed!");
+
                 }
 
                 if (deviceId.contains("LightSensor")) {
@@ -195,10 +197,11 @@ public class SmartGardenControlPoint extends Application {
                     // Set data change callback
                     LightSensorService = device.findService(new UDAServiceId("LightSensor"));
                     if (LightSensorService != null) {
-                        System.out.println("init subscriber for light sensor");
+
                         initializePropertyChangeCallback(upnpService, LightSensorService);
+                        System.out.println("2. subscribe Light sensor service completed!");
                     }
-                    System.out.println("2. subscribe Light sensor service completed!");
+
                 }
 
                 if (deviceId.contains("AirConditioning")) {

@@ -1,6 +1,7 @@
 package network_architect.view;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -20,7 +21,7 @@ public class LightView {
     private Button btnSwitch;
 
     @FXML
-    private Label lbIntensity;
+    private TextField lbIntensity;
 
     private LightApp app;
 
