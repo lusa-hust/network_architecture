@@ -66,6 +66,7 @@ public class LightApp extends DeviceApp {
             // Set app reference for controller
             lightViewController = loader.getController();
             lightViewController.setApp(this);
+            this.getLightStatus();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +81,50 @@ public class LightApp extends DeviceApp {
         }
     }
 
+    public void getLightStatus() {
+        Service service = getService(currentDevice.getDevice(), "Light");
 
+        if (service != null) {
+            Action getStatusAction = service.getAction("GetStatus");
+            ActionInvocation actionInvocation = new ActionInvocation(getStatusAction);
+            ActionCallback getStatusCallback = new ActionCallback(actionInvocation) {
+                @Override
+                public void success(ActionInvocation invocation) {
+                    ActionArgumentValue status = invocation.getOutput("ResultStatus");
+                    lightViewController.setStatusLight((Boolean) status.getValue());
+                }
+
+                @Override
+                public void failure(ActionInvocation invocation, UpnpResponse operation, String defaultMsg) {
+                    System.err.println(defaultMsg);
+                }
+            };
+            upnpService.getControlPoint().execute(getStatusCallback);
+        }
+
+    }
+
+    public void getLightIntensity() {
+        Service service = getService(currentDevice.getDevice(), "Light");
+
+        if (service != null) {
+            Action getStatusAction = service.getAction("GetIntensity");
+            ActionInvocation actionInvocation = new ActionInvocation(getStatusAction);
+            ActionCallback getStatusCallback = new ActionCallback(actionInvocation) {
+                @Override
+                public void success(ActionInvocation invocation) {
+                    ActionArgumentValue status = invocation.getOutput("ResultIntensity");
+                    lightViewController.setStatusLight((Boolean) status.getValue());
+                }
+
+                @Override
+                public void failure(ActionInvocation invocation, UpnpResponse operation, String defaultMsg) {
+                    System.err.println(defaultMsg);
+                }
+            };
+            upnpService.getControlPoint().execute(getStatusCallback);
+        }
+    }
 
 }
 

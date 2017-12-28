@@ -111,12 +111,13 @@ public abstract class DeviceApp extends Application {
         }
     }
 
+    // Receiving events from services
     protected void initializePropertyChangeCallback(UpnpService upnpService, Service service) {
         SubscriptionCallback callback = new SubscriptionCallback(service, 600) {
 
             @Override
             public void established(GENASubscription sub) {
-                //System.out.println("Established: " + sub.getSubscriptionId());
+                System.out.println("Established: " + sub.getSubscriptionId());
             }
 
             @Override

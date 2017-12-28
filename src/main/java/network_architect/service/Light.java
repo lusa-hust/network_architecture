@@ -50,9 +50,10 @@ public class Light {
     }
 
     @UpnpAction
-    public void setValue(@UpnpInputArgument(name = "NewValue") boolean newStatus) {
-        status = newStatus;
+    public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        value = newValue;
         getPropertyChangeSupport().firePropertyChange("Value", null, null);
+        System.out.println(" intensity: " + value);
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))

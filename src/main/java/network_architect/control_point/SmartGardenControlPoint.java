@@ -1,5 +1,8 @@
 package network_architect.control_point;
 
+import network_architect.action.SetIntensity;
+import network_architect.devices.Device;
+import network_architect.service.*;
 import network_architect.view.ControlPointView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +38,8 @@ public class SmartGardenControlPoint extends Application {
     private final UpnpService upnpService = new UpnpServiceImpl();
     private Stage primaryStage;
     private ControlPointView controlPointView;
-
+    private Device currentDevice;
+    Service LightService;
     public static void main(String[] args) {
         launch(args);
     }
@@ -116,19 +120,25 @@ public class SmartGardenControlPoint extends Application {
                     if (id.contains("LightSensor")) {
 
                         onLightSensorDataChange(id,true);
-                    } else if (id.contains("HumiditySensor")) {
-                        onHumiditySensorDataChange(id,true);
-                    } else if (id.contains("TemperatureSensor")) {
 
+                    } else if (id.contains("HumiditySensor")) {
+
+                        onHumiditySensorDataChange(id,true);
+
+                    } else if (id.contains("TemperatureSensor")) {
                         onTemperatureSensorDataChange(id,true);
 
                     } else if (id.contains("Light")) {
-                        StateVariableValue getStatus = values.get("Status");
-                        Boolean status = (Boolean) getStatus.getValue();
-                        onLightDataChange(id,status);
+                        boolean status = (Boolean) values.get("Status").getValue();
+                        int intensity = (Integer) values.get("Value").getValue();
+                        onLightDataChange(id,status,intensity);
+
                     } else if (id.contains("AirConditioning")) {
+
                         onAirConditioningDataChange(id,true);
+
                     } else if (id.contains("Pump")) {
+
                         onPumpDataChange(id,true);
                     }
                 }
@@ -159,9 +169,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service slotSensorService = device.findService(new UDAServiceId("Light"));
-                    if (slotSensorService != null) {
-                        initializePropertyChangeCallback(upnpService, slotSensorService);
+                    LightService = device.findService(new UDAServiceId("Light"));
+                    if (LightService != null) {
+                        initializePropertyChangeCallback(upnpService, LightService);
                     }
                 }
 
@@ -170,9 +180,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service signMonitorService = device.findService(new UDAServiceId("LightSensor"));
-                    if (signMonitorService != null) {
-                        initializePropertyChangeCallback(upnpService, signMonitorService);
+                    Service LightSensorService = device.findService(new UDAServiceId("LightSensor"));
+                    if (LightSensorService != null) {
+                        initializePropertyChangeCallback(upnpService, LightSensorService);
                     }
                 }
 
@@ -181,9 +191,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service signMonitorService = device.findService(new UDAServiceId("AirConditioning"));
-                    if (signMonitorService != null) {
-                        initializePropertyChangeCallback(upnpService, signMonitorService);
+                    Service AirConditioningService = device.findService(new UDAServiceId("AirConditioning"));
+                    if (AirConditioningService != null) {
+                        initializePropertyChangeCallback(upnpService, AirConditioningService);
                     }
                 }
 
@@ -192,9 +202,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service signMonitorService = device.findService(new UDAServiceId("HumiditySensor"));
-                    if (signMonitorService != null) {
-                        initializePropertyChangeCallback(upnpService, signMonitorService);
+                    Service HumiditySensorService = device.findService(new UDAServiceId("HumiditySensor"));
+                    if (HumiditySensorService != null) {
+                        initializePropertyChangeCallback(upnpService, HumiditySensorService);
                     }
                 }
 
@@ -203,9 +213,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service signMonitorService = device.findService(new UDAServiceId("Pump"));
-                    if (signMonitorService != null) {
-                        initializePropertyChangeCallback(upnpService, signMonitorService);
+                    Service PumpService = device.findService(new UDAServiceId("Pump"));
+                    if (PumpService != null) {
+                        initializePropertyChangeCallback(upnpService, PumpService);
                     }
                 }
 
@@ -214,9 +224,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service signMonitorService = device.findService(new UDAServiceId("TemperatureSensor"));
-                    if (signMonitorService != null) {
-                        initializePropertyChangeCallback(upnpService, signMonitorService);
+                    Service TemperatureSensorService = device.findService(new UDAServiceId("TemperatureSensor"));
+                    if (TemperatureSensorService != null) {
+                        initializePropertyChangeCallback(upnpService, TemperatureSensorService);
                     }
                 }
 
@@ -267,8 +277,11 @@ public class SmartGardenControlPoint extends Application {
 
     }
 
-    private void onLightDataChange(String id, boolean status) {
-
+    private void onLightDataChange(String id, boolean status, int intensity) {
+        if(status == false && intensity < 50){
+            Service service = LightService;
+            executeAction(upnpService, new SetIntensity(service,50));
+        }
     }
 
     private void onPumpDataChange(String id, boolean status) {

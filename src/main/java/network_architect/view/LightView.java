@@ -26,7 +26,7 @@ public class LightView {
 
     @FXML
     private void initialize() {
-
+        // show current status to UI
 
 
     }
@@ -41,11 +41,11 @@ public class LightView {
 
     @FXML
     public void btnClicked(){
-        updateLightStatusUI(true);
+        setStatusLight(true);
     }
 
-    public void updateLightStatusUI(boolean status)
-    {
+
+    public void setStatusLight(Boolean status){
         if(status)
         {
 
