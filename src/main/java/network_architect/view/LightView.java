@@ -1,5 +1,6 @@
 package network_architect.view;
 
+import javafx.scene.control.Label;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -18,6 +19,9 @@ public class LightView {
     @FXML
     private Button btnSwitch;
 
+    @FXML
+    private Label lbIntensity;
+
     private LightApp app;
 
 
@@ -26,6 +30,12 @@ public class LightView {
         setStatusLight(true);
     }
 
+    public void setLbIntensity(String intensity){
+        if(intensity != null) {
+            System.out.println("Intensity " + intensity);
+            lbIntensity.setText(intensity);
+        }
+    }
 
     public void setStatusLight(Boolean status){
         if(status)

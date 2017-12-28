@@ -100,9 +100,20 @@ public abstract class DeviceApp extends Application {
         return device.findService(new UDAServiceId(serviceId));
     }
 
+    protected void setServiceId(Device device, String serviceId)
+    {
+
+        Service service = getService(device.getDevice(), serviceId);
+
+        if(service != null) {
+            executeAction(upnpService, new SetDeviceIdAction(service, device.getId()));
+        }
+
+    }
+
     // Receiving events from services
     protected void initializePropertyChangeCallback(UpnpService upnpService, Service service) {
-        SubscriptionCallback callback = new SubscriptionCallback(service, 600) {
+        SubscriptionCallback callback = new SubscriptionCallback(service, 5) {
 
             @Override
             public void established(GENASubscription sub) {

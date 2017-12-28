@@ -39,20 +39,12 @@ public class LightSensorApp extends DeviceApp {
                 LightSensor.class
         );
         initRootLayout();
-
+        setServiceId(currentDevice,"LightSensor");
     }
 
     @Override
     public void onPropertyChangeCallbackReceived(GENASubscription subscription) {
-        Map<String, StateVariableValue> values = subscription.getCurrentValues();
-        StateVariableValue idVar = values.get("Id");
 
-        if (idVar != null) {
-            String id = (String) idVar.getValue();
-            if (id.equals(currentDevice.getId())) {
-
-            }
-        }
     }
 
     private void initRootLayout() {

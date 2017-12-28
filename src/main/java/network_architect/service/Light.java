@@ -40,8 +40,10 @@ public class Light {
 
     @UpnpAction
     public void setStatus(@UpnpInputArgument(name = "NewStatus") boolean newStatus) {
+        boolean oldStatus = status;
         status = newStatus;
-        getPropertyChangeSupport().firePropertyChange("Status", null, null);
+        getPropertyChangeSupport().firePropertyChange("Status", oldStatus, status);
+        System.out.println(" status: " + status);
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultStatus"))
@@ -53,7 +55,7 @@ public class Light {
     public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
         int oldValue = value;
         value = newValue;
-        //getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
+        getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
         System.out.println(" intensity: " + value);
     }
 

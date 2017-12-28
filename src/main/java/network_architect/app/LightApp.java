@@ -34,20 +34,26 @@ public class LightApp extends DeviceApp {
         primaryStage.setTitle("Light Control Panel");
         currentDevice = initializeDevices("Light", "Light", "Light", "Using for displaying light status", Light.class);
         initRootLayout();
-
+        setServiceId(currentDevice,"Light");
+        Service service = getService(currentDevice.getDevice(), "Light");
+        initializePropertyChangeCallback(upnpService, service);
     }
 
     @Override
     public void onPropertyChangeCallbackReceived(GENASubscription subscription) {
         Map<String, StateVariableValue> values = subscription.getCurrentValues();
         StateVariableValue idVar = values.get("Id");
+        System.out.println("check get from subscribes: " + values.toString());
 
-        if (idVar != null) {
-            String id = (String) idVar.getValue();
-            if (id.equals(currentDevice.getId())) {
 
-            }
-        }
+        StateVariableValue status = values.get("Status");
+        if(status != null)
+        lightViewController.setStatusLight((Boolean) status.getValue());
+
+        StateVariableValue intensity = values.get("Value");
+        if(intensity != null) lightViewController.setLbIntensity(intensity.getValue().toString());
+
+
     }
 
     private void initRootLayout() {
@@ -66,6 +72,7 @@ public class LightApp extends DeviceApp {
             lightViewController = loader.getController();
             lightViewController.setApp(this);
             this.getLightStatus();
+            //this.getLightIntensity();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +113,7 @@ public class LightApp extends DeviceApp {
                 @Override
                 public void success(ActionInvocation invocation) {
                     ActionArgumentValue status = invocation.getOutput("ResultValue");
-                    lightViewController.setStatusLight((Boolean) status.getValue());
+                    lightViewController.setLbIntensity(status.getValue().toString());
                 }
 
                 @Override
