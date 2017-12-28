@@ -18,7 +18,7 @@ import org.fourthline.cling.model.meta.Service;
 import org.fourthline.cling.model.types.UDAServiceId;
 
 public abstract class DeviceApp extends Application {
-    protected Device[] devices;
+    //protected Device device;
     protected UpnpService upnpService;
 
     // JavaFX
@@ -53,20 +53,18 @@ public abstract class DeviceApp extends Application {
     /**
      * Create upnp devices
      */
-    private void createDevices(int amount, String prefix, String type, String description, Class deviceClass) {
-        // Create slot devices
-        devices = new Device[amount];
-        for (int i = 0; i < amount; ++i) {
-            // Create device model
-            String id = prefix.concat(String.valueOf(i));
-            Device device = new Device(id, type,  id,1, "Device", "Tesla", description, "B502", deviceClass);
-            device.initializeDevice();
-            devices[i] = device;
-        }
+    private Device createDevices(String prefix, String type, String friendlyName, String description, Class deviceClass) {
+        // Create device model
+        String id = prefix;
+        Device device = new Device(id, type,  id,1, friendlyName,
+                                    "Tesla", description, "B502", deviceClass);
+        device.initializeDevice();
+
+        return device;
     }
 
-    protected void initializeDevices(int amount, String prefix, String type, String description, Class deviceClass) {
-        createDevices(amount, prefix, type, description, deviceClass);
+    protected Device initializeDevices(String prefix, String type, String friendlyName, String description, Class deviceClass) {
+        Device device = createDevices(prefix, type, friendlyName, description, deviceClass);
 
         try {
             Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -77,38 +75,37 @@ public abstract class DeviceApp extends Application {
             });
 
             // Add the bound local device to the registry
-            addDevices(devices);
+            addDevices(device);
         } catch (Exception ex) {
             System.err.println("Exception occured: " + ex);
             ex.printStackTrace(System.err);
             System.exit(1);
         }
+        return device;
     }
 
     /**
      * Add devices into upnp services
      *
-     * @param devices
+     * @param device
      */
-    private void addDevices(Device[] devices) {
-        for (Device device : devices) {
-            upnpService.getRegistry().addDevice(device.getDevice());
-        }
+    private void addDevices(Device device) {
+        upnpService.getRegistry().addDevice(device.getDevice());
     }
 
     protected Service getService(LocalDevice device, String serviceId) {
         return device.findService(new UDAServiceId(serviceId));
     }
 
-    protected void setServiceIds(String serviceIds)
+    protected void setServiceIds(Device device, String serviceIds)
     {
-        for(Device device : devices) {
+
             Service service = getService(device.getDevice(), serviceIds);
 
             if(service != null) {
                 executeAction(upnpService, new SetDeviceIdAction(service, device.getId()));
             }
-        }
+
     }
 
     // Receiving events from services

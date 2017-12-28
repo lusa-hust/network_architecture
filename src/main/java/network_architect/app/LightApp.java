@@ -32,9 +32,9 @@ public class LightApp extends DeviceApp {
     public void start(Stage primaryStage) throws Exception {
         super.start(primaryStage);
         primaryStage.setTitle("Light Control Panel");
-        initializeDevices(SIGN_NUMBER, "Light", "Light", "Using for displaying light status", Light.class);
+        currentDevice = initializeDevices("Light", "Light", "Light", "Using for displaying light status", Light.class);
         initRootLayout();
-        setServiceIds("Light");
+        setServiceIds(currentDevice,"Light");
 
     }
 
@@ -72,14 +72,7 @@ public class LightApp extends DeviceApp {
         }
     }
 
-    public void setCurrentDevice(int index) {
-        currentDevice = devices[index];
-        Service service = getService(currentDevice.getDevice(), "Light");
 
-        if (service != null) {
-            initializePropertyChangeCallback(upnpService, service);
-        }
-    }
 
     public void getLightStatus() {
         Service service = getService(currentDevice.getDevice(), "Light");
@@ -108,12 +101,12 @@ public class LightApp extends DeviceApp {
         Service service = getService(currentDevice.getDevice(), "Light");
 
         if (service != null) {
-            Action getStatusAction = service.getAction("GetIntensity");
+            Action getStatusAction = service.getAction("GetValue");
             ActionInvocation actionInvocation = new ActionInvocation(getStatusAction);
             ActionCallback getStatusCallback = new ActionCallback(actionInvocation) {
                 @Override
                 public void success(ActionInvocation invocation) {
-                    ActionArgumentValue status = invocation.getOutput("ResultIntensity");
+                    ActionArgumentValue status = invocation.getOutput("ResultValue");
                     lightViewController.setStatusLight((Boolean) status.getValue());
                 }
 

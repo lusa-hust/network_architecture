@@ -23,7 +23,7 @@ public class LightSensor {
     private String id;
 
     @UpnpStateVariable(defaultValue = "0")
-    private boolean status = false; // Note that the status indicates if the lightSensor is turn off and vice versa
+    private int value; // Note that the status indicates if the lightSensor is turn off and vice versa
 
     @UpnpAction
     public void setId(@UpnpInputArgument(name = "NewId") String newId) {
@@ -36,14 +36,14 @@ public class LightSensor {
     }
 
     @UpnpAction
-    public void setStatus(@UpnpInputArgument(name = "NewStatus") boolean newStatus) {
-        status = newStatus;
-        getPropertyChangeSupport().firePropertyChange("Status", null, null);
+    public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        value = newValue;
+        getPropertyChangeSupport().firePropertyChange("Value", null, null);
     }
 
-    @UpnpAction(out = @UpnpOutputArgument(name = "ResultStatus"))
-    public boolean getStatus() {
-        return status;
+    @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))
+    public int getValue() {
+        return value;
     }
 
 }

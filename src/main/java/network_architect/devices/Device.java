@@ -42,11 +42,13 @@ public class Device {
     public void initializeDevice() {
         try {
             device = createLocalDevice(id, type, version, friendlyName, manufacturer, modelName, description, modelNumber, service);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+
     }
 
     private LocalDevice createLocalDevice(String id, String typeName, int version, String friendlyName, String manufacturer, String modelName, String description, String modelNumber, Class service) throws ValidationException, LocalServiceBindingException, IOException {

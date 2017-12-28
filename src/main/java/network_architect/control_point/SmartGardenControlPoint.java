@@ -112,6 +112,7 @@ public class SmartGardenControlPoint extends Application {
             public void eventReceived(GENASubscription sub) {
                 Map<String, StateVariableValue> values = sub.getCurrentValues();
                 StateVariableValue idVar = values.get("Id");
+                System.out.println(sub.toString());
 
                 // Only care about data change
                 if (idVar != null) {
@@ -129,8 +130,8 @@ public class SmartGardenControlPoint extends Application {
                         onTemperatureSensorDataChange(id,true);
 
                     } else if (id.contains("Light")) {
-                        boolean status = (Boolean) values.get("Status").getValue();
-                        int intensity = (Integer) values.get("Value").getValue();
+                        boolean status = Boolean.parseBoolean(values.get("Status").getValue().toString());
+                        int intensity = Integer.parseInt(values.get("Value").getValue().toString());
                         onLightDataChange(id,status,intensity);
 
                     } else if (id.contains("AirConditioning")) {

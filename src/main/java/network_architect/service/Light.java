@@ -57,8 +57,8 @@ public class Light {
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))
-    public boolean getValue() {
-        return status;
+    public int getValue() {
+        return value;
     }
 
 

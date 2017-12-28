@@ -18,26 +18,8 @@ public class LightView {
     @FXML
     private Button btnSwitch;
 
-    private static final String STATE_AVAILABLE = "available";
-    private static final String STATE_UNAVAILABLE = "unavailable";
-
-    private ObservableList<String> signDeviceIds = FXCollections.observableArrayList();
     private LightApp app;
 
-    @FXML
-    private void initialize() {
-        // show current status to UI
-
-
-    }
-
-    public void populateSlotSensorList(Device[] devices)
-    {
-        for (Device device : devices)
-        {
-            signDeviceIds.add(device.getId());
-        }
-    }
 
     @FXML
     public void btnClicked(){
@@ -49,7 +31,7 @@ public class LightView {
         if(status)
         {
 
-            statusLight.setFill(Color.RED);
+            statusLight.setFill(Color.GREEN);
         }
         else
         {
