@@ -51,8 +51,9 @@ public class Light {
 
     @UpnpAction
     public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        int oldValue = value;
         value = newValue;
-        getPropertyChangeSupport().firePropertyChange("Value", null, null);
+        //getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
         System.out.println(" intensity: " + value);
     }
 

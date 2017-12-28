@@ -63,7 +63,10 @@ public abstract class DeviceApp extends Application {
         return device;
     }
 
-    protected Device initializeDevices(String prefix, String type, String friendlyName, String description, Class deviceClass) {
+    protected Device initializeDevices(
+            String prefix, String type,
+            String friendlyName, String description,
+            Class deviceClass) {
         Device device = createDevices(prefix, type, friendlyName, description, deviceClass);
 
         try {
@@ -95,17 +98,6 @@ public abstract class DeviceApp extends Application {
 
     protected Service getService(LocalDevice device, String serviceId) {
         return device.findService(new UDAServiceId(serviceId));
-    }
-
-    protected void setServiceIds(Device device, String serviceIds)
-    {
-
-            Service service = getService(device.getDevice(), serviceIds);
-
-            if(service != null) {
-                executeAction(upnpService, new SetDeviceIdAction(service, device.getId()));
-            }
-
     }
 
     // Receiving events from services

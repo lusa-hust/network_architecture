@@ -37,8 +37,11 @@ public class LightSensor {
 
     @UpnpAction
     public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        System.out.println("new intensity: " + newValue);
+        int oldValue = value;
         value = newValue;
-        getPropertyChangeSupport().firePropertyChange("Value", null, null);
+        getPropertyChangeSupport().firePropertyChange("value", oldValue, value);
+        getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))

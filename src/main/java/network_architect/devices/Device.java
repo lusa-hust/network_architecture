@@ -41,7 +41,12 @@ public class Device {
 
     public void initializeDevice() {
         try {
-            device = createLocalDevice(id, type, version, friendlyName, manufacturer, modelName, description, modelNumber, service);
+            device = createLocalDevice(
+                    id, type, version,
+                    friendlyName, manufacturer,
+                    modelName, description,
+                    modelNumber, service
+            );
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +56,13 @@ public class Device {
 
     }
 
-    private LocalDevice createLocalDevice(String id, String typeName, int version, String friendlyName, String manufacturer, String modelName, String description, String modelNumber, Class service) throws ValidationException, LocalServiceBindingException, IOException {
+    private LocalDevice createLocalDevice(
+            String id, String typeName,
+            int version, String friendlyName,
+            String manufacturer, String modelName,
+            String description, String modelNumber,
+            Class service
+    ) throws ValidationException, LocalServiceBindingException, IOException {
         DeviceIdentity identity = new DeviceIdentity(UDN.uniqueSystemIdentifier(id));
         DeviceType type = new UDADeviceType(typeName, version);
         DeviceDetails details = new DeviceDetails(friendlyName, new ManufacturerDetails(manufacturer), new ModelDetails(modelName, description, modelNumber));

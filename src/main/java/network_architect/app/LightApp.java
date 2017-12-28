@@ -34,7 +34,6 @@ public class LightApp extends DeviceApp {
         primaryStage.setTitle("Light Control Panel");
         currentDevice = initializeDevices("Light", "Light", "Light", "Using for displaying light status", Light.class);
         initRootLayout();
-        setServiceIds(currentDevice,"Light");
 
     }
 

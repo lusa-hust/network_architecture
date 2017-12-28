@@ -92,7 +92,7 @@ public class SmartGardenControlPoint extends Application {
     }
 
     private void initializePropertyChangeCallback(UpnpService upnpService, Service service) {
-        SubscriptionCallback callback = new SubscriptionCallback(service, 600) {
+        SubscriptionCallback callback = new SubscriptionCallback(service, 5) {
 
             @Override
             public void established(GENASubscription sub) {
@@ -112,9 +112,13 @@ public class SmartGardenControlPoint extends Application {
             public void eventReceived(GENASubscription sub) {
                 Map<String, StateVariableValue> values = sub.getCurrentValues();
                 StateVariableValue idVar = values.get("Id");
-                System.out.println(sub.toString());
+
+                System.out.println("Event: " + sub.getCurrentSequence().getValue());
+                StateVariableValue test = values.get("Value");
+                System.out.println("Value is: " + test.toString());
 
                 // Only care about data change
+                /*
                 if (idVar != null) {
                     String id = (String) idVar.getValue();
 
@@ -142,7 +146,7 @@ public class SmartGardenControlPoint extends Application {
 
                         onPumpDataChange(id,true);
                     }
-                }
+                }*/
             }
 
             @Override
@@ -164,6 +168,7 @@ public class SmartGardenControlPoint extends Application {
             @Override
             public void remoteDeviceAdded(Registry registry, RemoteDevice device) {
                 String deviceId = device.getDetails().getFriendlyName();
+                System.out.println(deviceId);
 
                 if (deviceId.contains("Light")) {
                     // Add device to hashmap
@@ -183,6 +188,7 @@ public class SmartGardenControlPoint extends Application {
                     // Set data change callback
                     Service LightSensorService = device.findService(new UDAServiceId("LightSensor"));
                     if (LightSensorService != null) {
+                        System.out.println("init subscriber for light sensor");
                         initializePropertyChangeCallback(upnpService, LightSensorService);
                     }
                 }

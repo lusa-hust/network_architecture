@@ -33,9 +33,12 @@ public class LightSensorApp extends DeviceApp {
     public void start(Stage primaryStage) throws Exception {
         super.start(primaryStage);
         primaryStage.setTitle("Light Sensor Panel");
-        currentDevice = initializeDevices("LightSensor", "LightSensor", "Light Sensor", "Using for displaying light sensor status", LightSensor.class);
+        currentDevice = initializeDevices(
+                "LightSensor", "LightSensor",
+                "LightSensor", "Using for displaying light sensor status",
+                LightSensor.class
+        );
         initRootLayout();
-        setServiceIds(currentDevice,"LightSensor");
 
     }
 
