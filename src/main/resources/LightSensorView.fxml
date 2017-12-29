@@ -18,6 +18,6 @@
       <Label layoutX="23.0" layoutY="73.0" text="Status" />
       <TextField fx:id="lblIntensity" onAction="#onUpdate" layoutX="29.0" layoutY="133.0" prefHeight="26.0" prefWidth="93.0" />
       <Label  layoutX="23.0" layoutY="110.0" text="Intensity" />
-      
+
    </children>
 </AnchorPane>

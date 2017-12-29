@@ -2,6 +2,7 @@ package network_architect.control_point;
 
 import network_architect.action.SetIntensity;
 import network_architect.action.SetStatus;
+import network_architect.action.SetTemperature;
 import network_architect.devices.Device;
 import network_architect.service.*;
 import network_architect.view.ControlPointView;
@@ -30,6 +31,7 @@ import org.fourthline.cling.model.types.UDAServiceId;
 import org.fourthline.cling.registry.DefaultRegistryListener;
 import org.fourthline.cling.registry.Registry;
 import org.fourthline.cling.registry.RegistryListener;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,8 @@ public class SmartGardenControlPoint extends Application {
     private Stage primaryStage;
     private ControlPointView controlPointView;
     private Device currentDevice;
-    Service LightService, LightSensorService, pumpService;
+    private Service LightService, LightSensorService, pumpService, acService;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -62,7 +65,6 @@ public class SmartGardenControlPoint extends Application {
             upnpService.getControlPoint().search(
                     new STAllHeader()
             );
-
 
 
             initializeRootLayout();
@@ -128,30 +130,35 @@ public class SmartGardenControlPoint extends Application {
                     if (id.equals("LightSensor")) {
                         //boolean status = Boolean.parseBoolean(values.get("Status").getValue().toString());
                         int intensity = Integer.parseInt(values.get("Value").getValue().toString());
-                        System.out.println(">>>>> " +  " " + intensity);
+                        System.out.println(">>>>> " + " " + intensity);
                         onLightSensorDataChange(id, intensity);
 
                     } else if (id.equals("HumiditySensor")) {
                         int humidity = Integer.parseInt(values.get("Value").getValue().toString());
-                        System.out.println("CP: humidity >>>>> " +  " " + humidity);
+                        System.out.println("CP: humidity >>>>> " + " " + humidity);
                         onHumiditySensorDataChange(id, humidity);
 
                     } else if (id.equals("TemperatureSensor")) {
-                        onTemperatureSensorDataChange(id,true);
+
+                        int temp = Integer.parseInt(values.get("Value").getValue().toString());
+                        System.out.println("CP: Temp >>>>> " + " " + temp);
+                        onHumiditySensorDataChange(id, temp);
+
+                        onTemperatureSensorDataChange(id, temp);
 
                     } else if (id.equals("Light")) {
                         boolean status = Boolean.parseBoolean(values.get("Status").getValue().toString());
                         int intensity = Integer.parseInt(values.get("Value").getValue().toString());
                         System.out.println(">>>>> " + status + " " + intensity);
-                        onLightDataChange(id,status,intensity);
+                        onLightDataChange(id, status, intensity);
 
                     } else if (id.equals("AirConditioning")) {
 
-                        onAirConditioningDataChange(id,true);
+                        onAirConditioningDataChange(id, true);
 
                     } else if (id.equals("Pump")) {
 
-                        onPumpDataChange(id,true);
+                        onPumpDataChange(id, true);
                     }
                 }
             }
@@ -210,9 +217,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service AirConditioningService = device.findService(new UDAServiceId("AirConditioning"));
-                    if (AirConditioningService != null) {
-                        initializePropertyChangeCallback(upnpService, AirConditioningService);
+                    acService = device.findService(new UDAServiceId("AirConditioning"));
+                    if (acService != null) {
+                        initializePropertyChangeCallback(upnpService, acService);
                     }
                 }
 
@@ -284,34 +291,52 @@ public class SmartGardenControlPoint extends Application {
 
     //TODO: Handle data change for each devices
 
-    private void onLightSensorDataChange(String id,  int intensity) {
+    private void onLightSensorDataChange(String id, int intensity) {
+        int threshold = controlPointView.getIntenThreshold();
+        // default th value = 50
         if (LightService == null) return;
-        if( intensity < 50){
+        if (intensity < threshold) {
             //Service service = LightService;
             System.out.println("This service: " + LightService.toString());
             executeAction(upnpService, new SetStatus(LightService, true));
-            executeAction(upnpService, new SetIntensity(LightService,50));
+            executeAction(upnpService, new SetIntensity(LightService, 50));
         }
 
-        if( intensity >= 50){
+        if (intensity >= threshold) {
             //Service service = LightService;
             System.out.println("This service: " + LightService.toString());
             executeAction(upnpService, new SetStatus(LightService, false));
-            executeAction(upnpService, new SetIntensity(LightService,0));
+            executeAction(upnpService, new SetIntensity(LightService, 0));
         }
     }
 
     private void onHumiditySensorDataChange(String id, int humidity) {
+        int threshold = controlPointView.getHumThreshold();
+        // default th value = 30
         if (pumpService == null) return;
-        if (humidity < 30) {
+        if (humidity < threshold) {
             executeAction(upnpService, new SetStatus(pumpService, true));
         } else {
             executeAction(upnpService, new SetStatus(pumpService, false));
         }
     }
 
-    private void onTemperatureSensorDataChange(String id, boolean status) {
+    private void onTemperatureSensorDataChange(String id, int temp) {
+        int threshold = controlPointView.getTempThreshold();
+        // default = 15
+        if (acService == null) return;
+        if (temp < threshold) {
+            //Service service = LightService;
+            System.out.println("This service: " + acService.toString());
+            executeAction(upnpService, new SetStatus(acService, true));
+            executeAction(upnpService, new SetTemperature(acService, 20));
+        }
 
+        else {
+            //Service service = LightService;
+            System.out.println("This service: " + acService.toString());
+            executeAction(upnpService, new SetStatus(acService, false));
+        }
     }
 
     private void onLightDataChange(String id, boolean status, int intensity) {
