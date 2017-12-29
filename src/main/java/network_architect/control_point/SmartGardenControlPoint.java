@@ -40,7 +40,7 @@ public class SmartGardenControlPoint extends Application {
     private Stage primaryStage;
     private ControlPointView controlPointView;
     private Device currentDevice;
-    Service LightService, LightSensorService;
+    Service LightService, LightSensorService, pumpService;
     public static void main(String[] args) {
         launch(args);
     }
@@ -132,8 +132,9 @@ public class SmartGardenControlPoint extends Application {
                         onLightSensorDataChange(id, intensity);
 
                     } else if (id.equals("HumiditySensor")) {
-
-                        onHumiditySensorDataChange(id,true);
+                        int humidity = Integer.parseInt(values.get("Value").getValue().toString());
+                        System.out.println("CP: humidity >>>>> " +  " " + humidity);
+                        onHumiditySensorDataChange(id, humidity);
 
                     } else if (id.equals("TemperatureSensor")) {
                         onTemperatureSensorDataChange(id,true);
@@ -231,9 +232,9 @@ public class SmartGardenControlPoint extends Application {
                     controlledDevices.put(deviceId, device);
 
                     // Set data change callback
-                    Service PumpService = device.findService(new UDAServiceId("Pump"));
-                    if (PumpService != null) {
-                        initializePropertyChangeCallback(upnpService, PumpService);
+                    pumpService = device.findService(new UDAServiceId("Pump"));
+                    if (pumpService != null) {
+                        initializePropertyChangeCallback(upnpService, pumpService);
                     }
                 }
 
@@ -284,6 +285,7 @@ public class SmartGardenControlPoint extends Application {
     //TODO: Handle data change for each devices
 
     private void onLightSensorDataChange(String id,  int intensity) {
+        if (LightService == null) return;
         if( intensity < 50){
             //Service service = LightService;
             System.out.println("This service: " + LightService.toString());
@@ -299,8 +301,13 @@ public class SmartGardenControlPoint extends Application {
         }
     }
 
-    private void onHumiditySensorDataChange(String id, boolean status) {
-
+    private void onHumiditySensorDataChange(String id, int humidity) {
+        if (pumpService == null) return;
+        if (humidity < 30) {
+            executeAction(upnpService, new SetStatus(pumpService, true));
+        } else {
+            executeAction(upnpService, new SetStatus(pumpService, false));
+        }
     }
 
     private void onTemperatureSensorDataChange(String id, boolean status) {

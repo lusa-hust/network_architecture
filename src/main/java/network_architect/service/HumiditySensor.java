@@ -23,7 +23,7 @@ public class HumiditySensor {
     private String id;
 
     @UpnpStateVariable(defaultValue = "0")
-    private boolean status = false; // Note that the status indicates if the lightSensor is turn off and vice versa
+    private int value; // Note that the status indicates if the lightSensor is turn off and vice versa
 
     @UpnpAction
     public void setId(@UpnpInputArgument(name = "NewId") String newId) {
@@ -36,14 +36,17 @@ public class HumiditySensor {
     }
 
     @UpnpAction
-    public void setStatus(@UpnpInputArgument(name = "NewStatus") boolean newStatus) {
-        status = newStatus;
-        getPropertyChangeSupport().firePropertyChange("Status", null, null);
+    public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        System.out.println("new humidity: " + newValue);
+        int oldValue = value;
+        value = newValue;
+        getPropertyChangeSupport().firePropertyChange("value", oldValue, value);
+        getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
     }
 
-    @UpnpAction(out = @UpnpOutputArgument(name = "ResultStatus"))
-    public boolean getStatus() {
-        return status;
+    @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))
+    public int getValue() {
+        return value;
     }
 
 }

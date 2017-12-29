@@ -16,7 +16,7 @@
       </Label>
       <Button layoutX="23.0" layoutY="107.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="41.0" text="ON" />
       <Text layoutX="25.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" />
-      <Circle fill="DODGERBLUE" layoutX="105.0" layoutY="68.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="GREY" layoutX="105.0" layoutY="68.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
       <Button layoutX="86.0" layoutY="108.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="OFF" />
       
       

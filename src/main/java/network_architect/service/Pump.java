@@ -25,6 +25,9 @@ public class Pump {
     @UpnpStateVariable(defaultValue = "0")
     private boolean status = false; // Note that the status indicates if the lightSensor is turn off and vice versa
 
+    @UpnpStateVariable(defaultValue = "0")
+    private int value; // Note that the value indicates how strong the light intensity is
+
     @UpnpAction
     public void setId(@UpnpInputArgument(name = "NewId") String newId) {
         id = newId;
@@ -37,12 +40,26 @@ public class Pump {
 
     @UpnpAction
     public void setStatus(@UpnpInputArgument(name = "NewStatus") boolean newStatus) {
+        boolean oldStatus = status;
         status = newStatus;
-        getPropertyChangeSupport().firePropertyChange("Status", null, null);
+        getPropertyChangeSupport().firePropertyChange("Status", oldStatus, status);
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultStatus"))
     public boolean getStatus() {
         return status;
+    }
+
+    @UpnpAction
+    public void setValue(@UpnpInputArgument(name = "NewValue") int newValue) {
+        int oldValue = value;
+        value = newValue;
+        getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
+        System.out.println(" intensity: " + value);
+    }
+
+    @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))
+    public int getValue() {
+        return value;
     }
 }
