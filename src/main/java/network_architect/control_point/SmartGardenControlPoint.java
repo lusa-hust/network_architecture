@@ -177,7 +177,7 @@ public class SmartGardenControlPoint extends Application {
                 String deviceId = device.getDetails().getFriendlyName();
                 System.out.println(deviceId);
 
-                if (deviceId.contains("Light")) {
+                if (deviceId.equals("Light")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -191,7 +191,7 @@ public class SmartGardenControlPoint extends Application {
 
                 }
 
-                if (deviceId.contains("LightSensor")) {
+                if (deviceId.equals("LightSensor")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -205,7 +205,7 @@ public class SmartGardenControlPoint extends Application {
 
                 }
 
-                if (deviceId.contains("AirConditioning")) {
+                if (deviceId.equals("AirConditioning")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -216,7 +216,7 @@ public class SmartGardenControlPoint extends Application {
                     }
                 }
 
-                if (deviceId.contains("HumiditySensor")) {
+                if (deviceId.equals("HumiditySensor")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -227,7 +227,7 @@ public class SmartGardenControlPoint extends Application {
                     }
                 }
 
-                if (deviceId.contains("Pump")) {
+                if (deviceId.equals("Pump")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -238,7 +238,7 @@ public class SmartGardenControlPoint extends Application {
                     }
                 }
 
-                if (deviceId.contains("TemperatureSensor")) {
+                if (deviceId.equals("TemperatureSensor")) {
                     // Add device to hashmap
                     controlledDevices.put(deviceId, device);
 
@@ -303,10 +303,13 @@ public class SmartGardenControlPoint extends Application {
 
     private void onHumiditySensorDataChange(String id, int humidity) {
         if (pumpService == null) return;
+        System.out.println("This service: " + pumpService.toString());
         if (humidity < 30) {
             executeAction(upnpService, new SetStatus(pumpService, true));
+            executeAction(upnpService, new SetIntensity(pumpService,50));
         } else {
             executeAction(upnpService, new SetStatus(pumpService, false));
+            executeAction(upnpService, new SetIntensity(pumpService,0));
         }
     }
 

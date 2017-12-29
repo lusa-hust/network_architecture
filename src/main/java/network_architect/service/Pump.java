@@ -55,7 +55,7 @@ public class Pump {
         int oldValue = value;
         value = newValue;
         getPropertyChangeSupport().firePropertyChange("Value", oldValue, value);
-        System.out.println(" intensity: " + value);
+        System.out.println(" humidity: " + value);
     }
 
     @UpnpAction(out = @UpnpOutputArgument(name = "ResultValue"))

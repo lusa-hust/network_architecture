@@ -69,7 +69,6 @@ public class PumpApp extends DeviceApp {
             // Set app reference for controller
             pumpViewController = loader.getController();
             pumpViewController.setApp(this);
-            this.getPumpStatus();
         } catch (IOException e) {
             e.printStackTrace();
         }
