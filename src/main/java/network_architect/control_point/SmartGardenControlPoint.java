@@ -54,6 +54,7 @@ public class SmartGardenControlPoint extends Application {
         primaryStage.setTitle("Smart Parking Control Panel");
 
         try {
+            initializeRootLayout();
             controlledDevices = new HashMap<String, RemoteDevice>();
 
             // Add a listener for device registration events
@@ -65,9 +66,6 @@ public class SmartGardenControlPoint extends Application {
             upnpService.getControlPoint().search(
                     new STAllHeader()
             );
-
-
-            initializeRootLayout();
         } catch (Exception ex) {
             System.err.println("Exception occured: " + ex);
             System.exit(1);

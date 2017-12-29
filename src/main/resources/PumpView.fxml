@@ -14,10 +14,10 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="23.0" layoutY="107.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="41.0" text="ON" />
+      <Button fx:id="onBtn" layoutX="23.0" layoutY="107.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="41.0" text="ON" onMouseClicked="#onBtnClicked" />
       <Text layoutX="25.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" />
       <Circle fx:id="statusPump" fill="GREY" layoutX="105.0" layoutY="68.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
-      <Button layoutX="86.0" layoutY="108.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="OFF" />
+      <Button fx:id="offBtn" layoutX="86.0" layoutY="108.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="44.0" text="OFF" onMouseClicked="#offBtnClicked" />
       
       
    </children>
