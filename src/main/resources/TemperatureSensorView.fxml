@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="network_architect.view.TemperatureSensorView">
+<AnchorPane prefHeight="208.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="network_architect.view.TemperatureSensorView">
    <children>
-      <Label layoutX="27.0" layoutY="23.0" text="Temp Now!">
+      <Label layoutX="19.0" layoutY="28.0" text="Temperature Sensor">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="GREY" height="65.0" layoutX="32.0" layoutY="63.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
-      <Button layoutX="20.0" layoutY="153.0" mnemonicParsing="false" text="ON" />
-      <Button layoutX="83.0" layoutY="153.0" mnemonicParsing="false" text="OFF" />
-      <Label layoutX="98.0" layoutY="76.0" text="°C">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
+
+      <Circle fx:id="status" fill="GREEN" layoutX="110.0" layoutY="82.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="23.0" layoutY="73.0" text="Status" />
+      <TextField fx:id="tfTemp" layoutX="64.0" layoutY="139.0" onAction="#onUpdate" prefHeight="26.0" prefWidth="93.0" />
+      <Label layoutX="23.0" layoutY="110.0" text="Temperature" />
+
    </children>
 </AnchorPane>
